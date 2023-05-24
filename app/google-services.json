@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1093537372851",
+    "firebase_url": "https://test-hov-default-rtdb.firebaseio.com",
+    "project_id": "test-hov",
+    "storage_bucket": "test-hov.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1093537372851:android:623e5d4829c9cbdd5ceec6",
+        "android_client_info": {
+          "package_name": "com.example.dblogin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1093537372851-kunpkht00h5bfpj8t0b4k27lv32gkud0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDt6iGLQWkaLc7qNyt5CNyYMlM4p39s_lQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1093537372851-kunpkht00h5bfpj8t0b4k27lv32gkud0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
