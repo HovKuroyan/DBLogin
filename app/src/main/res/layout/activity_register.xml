@@ -32,6 +32,12 @@
         android:layout_height="wrap_content"
         android:text="Register"/>
 
+    <CheckBox
+        android:id="@+id/checkBoxAdmin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="IsAdmin" />
+
     <TextView
         android:id="@+id/textViewLogin"
         android:layout_width="match_parent"

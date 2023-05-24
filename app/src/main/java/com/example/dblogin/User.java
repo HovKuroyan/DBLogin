@@ -1,27 +1,31 @@
 package com.example.dblogin;
 
 public class User {
-    String login;
-    String password;
+    private String uid;
+    private String role;
 
-    public User(String login, String password) {
-        this.login = login;
-        this.password = password;
+    public User() {
+        // Required empty constructor for Firestore
     }
 
-    public String getLogin() {
-        return login;
+    public User(String uid, String role) {
+        this.uid = uid;
+        this.role = role;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public String getUid() {
+        return uid;
     }
 
-    public String getPassword() {
-        return password;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

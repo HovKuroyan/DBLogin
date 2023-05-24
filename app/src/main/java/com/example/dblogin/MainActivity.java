@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -40,20 +42,25 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private FirebaseFirestore db;
     List<String> schoolNames = new ArrayList<>();
+    TextView tvRole;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        startActivity(new Intent(this, LoginActivity.class));
         tvSchool = findViewById(R.id.select_schools);
 
+        tvRole = findViewById(R.id.tvRole);
+        FirebaseAuth firebaseRef = FirebaseAuth.getInstance();
 
         tvSchool.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 customSwitch();
+                checkAdminRole(firebaseRef.getCurrentUser().getUid());
+
             }
         });
 
@@ -71,10 +78,48 @@ public class MainActivity extends AppCompatActivity {
         uids.add("uid2");
         uids.add("uid3");
 
+
 //        addSchoolNames(schoolNames, uids);
         readSchoolNames();
     }
 
+    private void checkAdminRole(String uid) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference userRef = db.collection("users").document(uid);
+
+        userRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            User user = documentSnapshot.toObject(User.class);
+                            if (user != null) {
+                                if (user.getRole().equals("admin")) {
+                                    // User is an admin
+                                    // Add your logic for handling admin user here
+                                    tvRole.setText("Admin");
+                                    Toast.makeText(MainActivity.this, "User is an admin", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    // User is not an admin
+                                    // Add your logic for handling non-admin user here
+                                    tvRole.setText("User");
+                                    Toast.makeText(MainActivity.this, "User is not an admin", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } else {
+                            // User document does not exist
+                            Toast.makeText(MainActivity.this, "User document does not exist", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Failed to check admin role
+                        Toast.makeText(MainActivity.this, "Failed to check admin role.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
     private void addSchoolNames(List<String> schoolNames, List<String> uids) {
         CollectionReference schoolsCollection = db.collection("schools");
